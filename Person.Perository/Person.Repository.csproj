@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20191212071301_FakeFk.cs" />
+    <Compile Remove="Migrations\20191212071301_FakeFk.Designer.cs" />
+    <Compile Remove="Migrations\20191212073651_Fake.cs" />
+    <Compile Remove="Migrations\20191212073651_Fake.Designer.cs" />
+    <Compile Remove="Migrations\20191215121404_ChangeToCascade.cs" />
+    <Compile Remove="Migrations\20191215121404_ChangeToCascade.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.DynamicLinq" Version="1.0.19" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Person.Domain\Person.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,67 @@
+﻿@model Person
+@{
+    ViewBag.Title = "Details";
+    var photoPath = "/images/" + (Model.PhotoPath ?? "noimage.PNG");
+}
+
+@inject IPersonService service
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.FirstName</h1>
+            </div>
+
+            <div class="card-body text-center">
+                <img class="card-img-top" src="@photoPath" asp-append-version="true" />
+
+                <h4>Employee ID : @Model.Id</h4>
+                <h4>LastName : @Model.LastName</h4>
+                <h4>BirthDate : @Model.BirthDate</h4>
+                <h4>City : @Model.City</h4>
+                <h4>Gender : @Model.Gender</h4>
+                <h4>PrivateNumber : @Model.PrivateNumber</h4>
+                @if (Model.PhoneNumbers != null && Model.PhoneNumbers.Count != 0)
+                {
+                    <h4>
+                        PhoneNumbers : @foreach (var number in Model.PhoneNumbers)
+                        {<span> @number.Number - @number.NumberType</span><br>}
+                    </h4>
+                }
+
+                @if (Model.RelatedTo != null && Model.RelatedTo.Count != 0)
+                {
+                    <h4>
+                        Relations : @foreach (var relation in Model.RelatedTo)
+                        {<span> @service.Fetch(relation.ToId).LastName - @relation.RelationType</span><br>}
+                    </h4>
+                }
+                </div>
+            <div class="card-footer text-center">
+                <form method="post" asp-action="DeletePerson" asp-route-id="@Model.Id">
+                    <a asp-controller="Person" asp-action="Index" class="btn btn-primary">Back</a>
+                    <a asp-controller="home" asp-action="edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+
+
+                    <span id="confirmDeleteSpan_@Model.Id" style="display:none">
+                        <span>Delete?</span>
+
+                        <button type="submit" class="btn btn-danger" style="width:30px">Y</button>
+                        <a href="#" class="btn btn-primary" style="width:30px"
+                           onclick="confirmDelete('@Model.Id', false)">N</a>
+                    </span>
+
+                    <span id="deleteSpan_@Model.Id">
+                        <a href="#" class="btn btn-danger"
+                           onclick="confirmDelete('@Model.Id', true)">Delete</a>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}

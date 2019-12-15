@@ -1,0 +1,75 @@
+﻿@model PaginatedList<Person>
+@{
+    ViewBag.Title = "Person List";
+}
+
+<form asp-controller="Person" asp-action="Index" method="get" class="col-form-label-sm">
+    <div class="form-group row">
+        <div class="input-group">
+
+            <div class="col-sm-10">
+                <input class="form-control" placeholder="search by .." name="searchString" value="@ViewData[" currentFilter"]">
+            </div>
+            <div class="input-group-append">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card-deck">
+    @foreach (var person in Model)
+    {
+        var photoPath = "/images/" + (person.PhotoPath ?? "noimage.PNG");
+        <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+            <div class="card-header">
+                <h3>@person.LastName</h3>
+            </div>
+            <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
+            <div class="card-footer text-center">
+                <form method="post" asp-action="DeletePerson" asp-route-id="@person.Id">
+                    <a asp-controller="Person" asp-action="Details" asp-route-id="@person.Id" class="btn btn-primary m-1">View</a>
+                    <a asp-controller="Person" asp-action="Edit" asp-route-id="@person.Id" class="btn btn-primary m-1">Edit</a>
+
+                    <span id="confirmDeleteSpan_@person.Id" style="display:none">
+                        <span>Delete?</span>
+
+                        <button type="submit" class="btn btn-danger" style="width:30px">Y</button>
+                        <a href="#" class="btn btn-primary" style="width:30px"
+                           onclick="confirmDelete('@person.Id', false)">N</a>
+                    </span>
+
+                    <span id="deleteSpan_@person.Id">
+                        <a href="#" class="btn btn-danger"
+                           onclick="confirmDelete('@person.Id', true)">Delete</a>
+                    </span>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
+
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
+}
+

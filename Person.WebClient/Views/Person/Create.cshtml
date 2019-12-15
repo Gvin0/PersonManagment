@@ -1,0 +1,181 @@
+﻿@model PersonCreateViewModel
+@using Person.Domain.Domains
+
+@{
+    ViewBag.Title = "Create Person";
+}
+
+    <form enctype="multipart/form-data" asp-controller="Person" asp-action="Create" method="post" class="col-form-label-sm">
+        <div class="form-group row">
+            <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="FirstName" class="form-control" placeholder="FirstName">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="LastName" class="form-control" placeholder="LastName">
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Gender" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <select asp-for="Gender" class="custom-select mr-sm-2"
+                        asp-items="Html.GetEnumSelectList<Gender>()">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <div class="input-group" id="inptgr">
+                <label class="col-sm-2">Number</label>
+
+                <input class="form-control" name="PhoneNumbers[0].Number" type="text" placeholder="Number">
+
+                <div class="input-group-btn">
+                    <select class="form-control" name="PhoneNumbers[0].NumberType" id="slctId"
+                            asp-items="Html.GetEnumSelectList<NumberType>()">
+                    </select>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-danger" id="btnDelete" type="button" disabled="disabled">Delete</button>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="button" id="btnAddNew" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+
+
+        @*/////////////////////////////////////////////////////////*@
+
+
+        <div class="form-group row">
+            <label asp-for="City" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="City" class="form-control" placeholder="City">
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="PrivateNumber" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="PrivateNumber" class="form-control" placeholder="PrivateNumber">
+                <span asp-validation-for="PrivateNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="BirthDate" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="BirthDate" type="date" class="form-control" placeholder="BirthDate">
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Photo" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <div class="custom-file">
+                    <input asp-for="Photo" class="form-control custom-file-input">
+                    <label class="custom-file-label">Choose File...</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group" id="inptgr1">
+                <label class="col-sm-2">Relation</label>
+
+                <div class="input-group-btn">
+                    <select class="form-control" name="Relations[0].Value" id="slctPersonId"
+                            asp-items="@((List<SelectListItem>)ViewBag.Persons)">
+                            <option>Please select new one</option>
+                    </select>
+                </div>
+
+                <div class="input-group-btn">
+                    <select class="form-control" name="Relations[0].RelationType" id="slctRelationId"
+                            asp-items="Html.GetEnumSelectList<RelationType>()">
+                    </select>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-danger" id="btnDelete1" type="button" disabled="disabled">Delete</button>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="button" id="btnAddNew1" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group row">
+            <div class="col-sm-10 text-center">
+                <button type="submit" class="btn btn-primary" style="">Create</button>
+            </div>
+        </div>
+
+        @section Scripts {
+            <script>
+                $(document).ready(function () {
+
+                    var inputs = 0;
+                    var inputs1 = 0;
+                    $('#btnAddNew1').click(function () {
+                        $('#btnDelete1').removeAttr('disabled');
+                        var c = $('#inptgr1').clone(true);
+                        c.find('#slctPersonId').attr('name', 'Relations[' + (++inputs1) + '].Value');
+                        c.find('#slctRelationId').attr('name', 'Relations[' + (inputs1) + '].RelationType'); //
+                        $('#inptgr1').after(c);
+                    });
+
+                    $('#btnDelete1').click(function () {
+                        --inputs1;
+                        $(this).closest('#inptgr1').remove();
+                        $('#btnDelete1').attr('disabled', ($('#inptgr1').length < 2));
+
+                    });
+
+                    ///////////////////////////////////////////////////////////////////////////////
+
+                    $('#btnAddNew').click(function () {
+                        $('#btnDelete').removeAttr('disabled');
+                        var c = $('#inptgr').clone(true);
+                        c.children(':text').attr('name', 'PhoneNumbers[' + (++inputs) + '].Number');
+                        c.children(':text').val('');
+                        c.find('#slctId').attr('name', 'PhoneNumbers[' + (inputs) + '].NumberType'); //
+                        $('#inptgr').after(c);
+                    });
+
+                    $('#btnDelete').click(function () {
+                        --inputs;
+                        $(this).closest('#inptgr').remove();
+                        $('#btnDelete').attr('disabled', ($('#inptgr').length < 2));
+
+                    });
+                  
+                    $('.custom-file-input').on("change", function () {
+
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next('.custom-file-label').html(fileName);
+                    });
+                });                         
+
+            </script>
+        }
+    </form>

@@ -1,0 +1,12 @@
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\bin\Debug\netcoreapp3.1\Person.Domain.deps.json
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\bin\Debug\netcoreapp3.1\Person.Domain.runtimeconfig.json
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\bin\Debug\netcoreapp3.1\Person.Domain.runtimeconfig.dev.json
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\bin\Debug\netcoreapp3.1\Person.Domain.dll
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\bin\Debug\netcoreapp3.1\Person.Domain.pdb
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\obj\Debug\netcoreapp3.1\Person.Domain.csprojAssemblyReference.cache
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\obj\Debug\netcoreapp3.1\Person.Domain.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\obj\Debug\netcoreapp3.1\Person.Domain.AssemblyInfo.cs
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\obj\Debug\netcoreapp3.1\Person.Domain.dll
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Domain\obj\Debug\netcoreapp3.1\Person.Domain.pdb
+C:\Users\adminnn\Desktop\PersonManagment\PersonManagment\Person.Domain\obj\Debug\netcoreapp3.1\Person.Domain.dll
+C:\Users\adminnn\Desktop\PersonManagment\PersonManagment\Person.Domain\obj\Debug\netcoreapp3.1\Person.Domain.pdb

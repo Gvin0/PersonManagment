@@ -1,0 +1,11 @@
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\bin\Debug\netcoreapp3.1\Person.Domain.dll
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\obj\Debug\netcoreapp3.1\Person.Perository.csprojAssemblyReference.cache
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\obj\Debug\netcoreapp3.1\Person.Perository.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\obj\Debug\netcoreapp3.1\Person.Perository.AssemblyInfo.cs
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\bin\Debug\netcoreapp3.1\Person.Perository.deps.json
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\bin\Debug\netcoreapp3.1\Person.Perository.dll
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\bin\Debug\netcoreapp3.1\Person.Perository.pdb
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\bin\Debug\netcoreapp3.1\Person.Domain.pdb
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\obj\Debug\netcoreapp3.1\Person.Perository.csproj.CopyComplete
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\obj\Debug\netcoreapp3.1\Person.Perository.dll
+C:\Users\user\Desktop\PersonManagment\PersonManagment\Person.Perository\obj\Debug\netcoreapp3.1\Person.Perository.pdb
