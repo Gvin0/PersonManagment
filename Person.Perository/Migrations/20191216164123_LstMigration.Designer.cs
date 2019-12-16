@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Person.Repository;
 
 namespace Person.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191216164123_LstMigration")]
+    partial class LstMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,18 +257,6 @@ namespace Person.Repository.Migrations
                         {
                             FromId = 6,
                             ToId = 2,
-                            RelationType = 0
-                        },
-                        new
-                        {
-                            FromId = 4,
-                            ToId = 1,
-                            RelationType = 0
-                        },
-                        new
-                        {
-                            FromId = 2,
-                            ToId = 5,
                             RelationType = 0
                         });
                 });

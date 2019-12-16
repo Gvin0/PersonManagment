@@ -26,7 +26,7 @@ namespace Person.Repository
             }
             catch (Exception ex)
             {
-                // aq gavaketot logireba
+                //
                 throw;
             }
         }

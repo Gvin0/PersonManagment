@@ -96,10 +96,48 @@ namespace Person.WebClient.Controllers
         }
 
         [HttpPost]
-        public ViewResult Edit(PersonEditViewModel model)
+        public IActionResult Edit(PersonEditViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                var person = _service.Fetch(model.Id);
+                person.FirstName = model.FirstName;
+                person.LastName = model.LastName;
+                person.PrivateNumber = model.PrivateNumber;
+                person.City = model.City;
+                person.BirthDate = model.BirthDate;
+                person.Gender = model.Gender;
+                if (model.Photo != null)
+                {
+                    if (model.ExistingPhotoPath != null)
+                    {
+                        string filePath = Path.Combine(_env.WebRootPath, "images", model.ExistingPhotoPath);
+                        System.IO.File.Delete(filePath);
+                    }
+                    person.PhotoPath = UploadFile(model);
+                }
+
+                CleanUp(model.Id);
+
+                person.PhoneNumbers = model.PhoneNumbers.Select(p => new Domain.PhoneNumber
+                {
+                    Number = p.Number,
+                    NumberType = p.NumberType
+                }).ToArray();
+
+                person.RelatedTo = model.Relations.Select(r => new Domain.Relation
+                {
+                    ToId = int.Parse(r.Value),
+                    RelationType = r.RelationType
+                }).ToArray();
+
+                _service.Update(person);
+                _service.Commit();
+                return RedirectToAction("Index");
+            }
             return View();
         }
+
         [HttpGet]
         public ViewResult Edit(int id)
         {
@@ -119,11 +157,11 @@ namespace Person.WebClient.Controllers
                     Number = pn.Number,
                     NumberType = pn.NumberType
                 }).ToArray(),
-                Relations = person.RelatedFrom.Select(r => new RelationViewModel 
+                Relations = person.RelatedTo.Select(r => new RelationViewModel 
                 {
                     Value = r.ToId.ToString(),
                     RelationType = r.RelationType
-                }).ToArray()
+                }).ToArray(),
             };
 
             ViewBag.Persons = _service.Set().Select(p => new SelectListItem
@@ -149,7 +187,15 @@ namespace Person.WebClient.Controllers
         [HttpPost]
         public IActionResult DeletePerson(int id)
         {
-            var person = _service.Set().FirstOrDefault(p => p.Id == id);
+            CleanUp(id);
+
+            _service.Delete(id);
+            _service.Commit();
+            return RedirectToAction("Index");
+        }
+
+        private void CleanUp(int id)
+        {
             var personNumbers = _phoneNumberService.Set().Where(ph => ph.PersonId == id);
             var relations = _relationService.Set().Where(r => r.FromId == id || r.ToId == id);
             if (personNumbers != null)
@@ -168,10 +214,6 @@ namespace Person.WebClient.Controllers
                 }
                 _relationService.Commit();
             }
-            
-            _service.Delete(id);
-            _service.Commit();
-            return RedirectToAction("Index");
         }
 
         [HttpPost]

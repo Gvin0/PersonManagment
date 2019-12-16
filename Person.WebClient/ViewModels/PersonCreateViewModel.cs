@@ -27,7 +27,7 @@ namespace Person.WebClient.ViewModels
         [Required]
         [StringLength(11, MinimumLength = 11)]
 
-        [Remote(action: "IsPrivateNumberInUse", controller: "Person")]
+        //[Remote(action: "IsPrivateNumberInUse", controller: "Person")]
         public string PrivateNumber { get; set; }
 
         [Required]
@@ -37,6 +37,7 @@ namespace Person.WebClient.ViewModels
         public string City { get; set; }
         public IFormFile Photo { get; set; }
         public virtual PhoneNumberViewModel[] PhoneNumbers { get; set; }
+        //[BindProperty]
         public virtual RelationViewModel[] Relations { get; set; }
     }
 

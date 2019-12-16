@@ -4,10 +4,13 @@
     ViewBag.Title = "Edit Employee";
     var photoPath = "/images/" + (Model.ExistingPhotoPath ?? "noimage.PNG");
     int numbersCount = Model.PhoneNumbers.Length;
+    int relationsCount = Model.Relations.Length;
 }
 
     <form enctype="multipart/form-data" asp-controller="Person" asp-action="Edit" method="post" class="col-form-label-sm">
         <div class="form-group row">
+            <input type="hidden" id="MyHidden" value="@numbersCount" />
+            <input type="hidden" id="MyHidden1" value="@relationsCount" />
             <input hidden asp-for="Id" />
             <input hidden asp-for="ExistingPhotoPath" />
             <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
@@ -34,24 +37,29 @@
             </div>
         </div>
 
-        @*//////////////////////////////////////////////////////////////////////////////////*@
-
     <div class="form-group">
         @for (int i = 0; i < numbersCount; i++)
             {
-                <div class="input-group" id="inptgr">
+                <div class="input-group igc" id="inptgr">
                     <label class="col-sm-2">Number</label>
 
-                    <input class="form-control" name="PhoneNumbers[@i].Number" type="text" value="@Model.PhoneNumbers[i].Number" placeholder="Number">
+                    <input class="form-control gmv" name="PhoneNumbers[@i].Number" type="text" value="@Model.PhoneNumbers[i].Number" placeholder="Number">
 
                     <div class="input-group-btn">
-                        <select class="form-control" name="PhoneNumbers[@i].NumberType" id="slctId" tabindex="@Model.PhoneNumbers[i].NumberType"
-                                asp-items="Html.GetEnumSelectList<NumberType>()">
-                                @*<option>@Model.PhoneNumbers[i].NumberType</option>*@
+                        <select class="form-control" name="PhoneNumbers[@i].NumberType" id="slctId"
+                                asp-items="Html.GetEnumSelectList<NumberType>().Select(item =>
+                        {
+                            if(int.Parse(item.Value) == (int)Model.PhoneNumbers[i].NumberType)
+                            {
+                                item.Selected = true;
+                            }
+                            return item;
+                        })">
+                        
                         </select>
                     </div>
                     <div class="input-group-append">
-                        <button class="btn btn-danger" id="btnDelete" type="button">Delete</button>
+                        <button class="btn btn-danger mdaa" id="btnDelete" type="button">Delete</button>
                     </div>
                 </div>           
             }
@@ -62,9 +70,6 @@
             </div>
         </div>
     </div>
-
-
-        @*/////////////////////////////////////////////////////////*@
 
 
         <div class="form-group row">
@@ -102,42 +107,51 @@
         </div>
 
         <div class="form-group row col-sm-4 offset-4">
-            <img src="@photoPath" style="width:200px" height="200px" asp-append-version="true" />
+            <img src="@photoPath" style="width:200px" asp-append-version="true" />
         </div>
 
         <div class="form-group">
-            <div class="input-group" id="inptgr1">
+            @for (int i = 0; i < relationsCount; i++)
+            {
+            <div class="input-group igc1" id="inptgr1">
                 <label class="col-sm-2">Relation</label>
-
+               
                 <div class="input-group-btn">
-                    <select class="form-control" name="Relations[0].Value" id="slctPersonId"
-                            asp-items="@((List<SelectListItem>)ViewBag.Persons)">
-                        @*<option>Please select new one</option>*@
+                    <select class="form-control" name="Relations[@i].Value" id="slctPersonId" asp-for="@Model.Relations[i].Value"
+                            asp-items="ViewBag.Persons">
                     </select>
                 </div>
 
                 <div class="input-group-btn">
-                    <select class="form-control" name="Relations[0].RelationType" id="slctRelationId"
-                            asp-items="Html.GetEnumSelectList<RelationType>()">
+                    <select class="form-control gmv1" name="Relations[@i].RelationType" id="slctRelationId"
+                            asp-items="Html.GetEnumSelectList<RelationType>().Select(item =>
+                        {
+                            if(int.Parse(item.Value) == (int)Model.Relations[i].RelationType)
+                            {
+                                item.Selected = true;
+                            }
+                            return item;
+                        })">
                     </select>
                 </div>
                 <div class="input-group-append">
-                    <button class="btn btn-danger" id="btnDelete1" type="button" disabled="disabled">Delete</button>
+                    <button class="btn btn-danger mdaa1" id="btnDelete1" type="button" >Delete</button>
                 </div>
 
             </div>
-            <div class="form-group row">
-                <div class="col-sm-10">
-                    <button type="button" id="btnAddNew1" class="btn btn-primary">Add</button>
+            }
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="button" id="btnAddNew1" class="btn btn-primary">Add</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
 
         <div asp-validation-summary="All" class="text-danger"></div>
 
-        <div class="form-group row">
-            <div class="col-sm-10" text-center>
+        <div class="form-group row" align-items-center>
+            <div class="col-sm-10" align-items-center>
                 <button type="submit" class="btn btn-primary">Update</button>
                 <a asp-controller="Person" asp-action="index" class="btn btn-primar">Cancel</a>
             </div>
@@ -148,51 +162,55 @@
             <script>
                 $(document).ready(function () {
 
-                    var inputs = 0;
-                    var inputs1 = 0;
-
-                    $('#btnAddNew').click(function () {
-                        $('#btnDelete').removeAttr('disabled');
-                        var c = $('#inptgr').clone(true);
-                        c.children(':text').attr('name', 'PhoneNumbers[' + (++inputs) + '].Number');
-                        c.children(':text').val('');
-                        c.find('#slctId').attr('name', 'PhoneNumbers[' + (inputs) + '].NumberType'); //
-                        $('#inptgr').after(c);
-                    });
-
-                    $('#btnDelete').click(function () {
-                        --inputs;
-                        $(this).closest('#inptgr').remove();
-                        $('#btnDelete').attr('disabled', ($('#inptgr').length < 2));
-
-                    });
-
-                    $('.custom-file-input').on("change", function () {
-
-                        var fileName = $(this).val().split("\\").pop();
-                        $(this).next('.custom-file-label').html(fileName);
-                    });
-
-                    /////////////////////////////////////////////////////////////////////
+                    var newInput = $('#MyHidden').val() - 1;
+                    var newInput1 = $('#MyHidden1').val() - 1;
 
                     $('#btnAddNew1').click(function () {
                         $('#btnDelete1').removeAttr('disabled');
                         var c = $('#inptgr1').clone(true);
-                        c.find('#slctPersonId').attr('name', 'Relations[' + (++inputs1) + '].Value');
-                        c.find('#slctRelationId').attr('name', 'Relations[' + (inputs1) + '].RelationType'); //
+                        c.find('#slctPersonId').attr('name', 'Relations[' + (++newInput1) + '].Value');
+                        c.find('#slctRelationId').attr('name', 'Relations[' + (newInput1) + '].RelationType'); //
                         $('#inptgr1').after(c);
                     });
 
-                    $('#btnDelete1').click(function () {
-                        --inputs1;
-                        $(this).closest('#inptgr1').remove();
-                        $('#btnDelete1').attr('disabled', ($('#inptgr1').length < 2));
+                    $('.mdaa1').click(function () {
+                        var removed = $(this).closest('.igc1').find('.gmv1').attr('name');
+                        console.log(removed);
+                        $(this).closest('.igc1').remove();
+                        var removedIndex = removed.split('[').pop().split(']')[0];
+                        $('select[name="Relations[' + newInput1 + '].Value"]').attr('name', 'PhoneNumbers[' + removedIndex + '].Value');
+                        $('select[name="Relations[' + newInput1 + '].RelationType"]').attr('name', 'PhoneNumbers[' + removedIndex + '].RelationType');
+                        --newInput1;
+                        $('.mdaa1').attr('disabled', ($('.igc1').length < 2));
 
                     });
 
-                    ///////////////////////////////////////////////////////////////////////////////
+                    $('#btnAddNew').click(function () {
 
-                    
+                        $('#btnDelete').removeAttr('disabled');
+                        var c = $('#inptgr').clone(true);
+                        c.children(':text').attr('name', 'PhoneNumbers[' + (++newInput) + '].Number');
+                        c.children(':text').val('');
+                        c.find('#slctId').attr('name', 'PhoneNumbers[' + (newInput) + '].NumberType'); //
+                        $('#inptgr').after(c);
+                    });
+
+                    $('.mdaa').click(function () {
+                        var removed = $(this).closest('.igc').find('.gmv').attr('name');
+                        $(this).closest('.igc').remove();
+                        var removedIndex = removed.split('[').pop().split(']')[0];
+                        $('input[name="PhoneNumbers[' + newInput + '].Number"]').attr('name', 'PhoneNumbers[' + removedIndex + '].Number');
+                        $('select[name="PhoneNumbers[' + newInput + '].NumberType"]').attr('name', 'PhoneNumbers[' + removedIndex + '].NumberType');
+                        --newInput;
+                        $('.mdaa').attr('disabled', ($('.igc').length < 2));
+
+                    });
+                                                  
+                    $('.custom-file-input').on("change", function () {
+
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next('.custom-file-label').html(fileName);
+                    });                   
                 });
 
             </script>

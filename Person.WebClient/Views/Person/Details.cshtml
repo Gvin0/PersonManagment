@@ -41,7 +41,7 @@
             <div class="card-footer text-center">
                 <form method="post" asp-action="DeletePerson" asp-route-id="@Model.Id">
                     <a asp-controller="Person" asp-action="Index" class="btn btn-primary">Back</a>
-                    <a asp-controller="home" asp-action="edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Person" asp-action="edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
 
 
                     <span id="confirmDeleteSpan_@Model.Id" style="display:none">

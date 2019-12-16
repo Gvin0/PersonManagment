@@ -23,8 +23,8 @@ namespace Person.Domain.Domains
         public string LastName { get; set; }
         public Gender? Gender { get; set; }
 
-        //[MaxLength(11), MinLength(11)]
-        [StringLength(11, MinimumLength = 11)]
+
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "11 Symbol")]
         public string PrivateNumber { get; set; }
 
         [DataType(DataType.Date)]

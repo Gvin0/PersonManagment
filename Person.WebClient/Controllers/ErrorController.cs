@@ -29,8 +29,6 @@ namespace WebApplication1.Controllers
             {
                 case 404:
                     ViewBag.ErrorMessage = "Oops not found";
-                    //ViewBag.Path = statusCodeResult.OriginalPath;
-                    //ViewBag.QS = statusCodeResult.OriginalQueryString;
                     _logger.LogWarning($"404 Error Occured. Path = {statusCodeResult.OriginalPath}" + $"and QueryString = {statusCodeResult.OriginalQueryString}");
                     break;
             }
@@ -42,10 +40,6 @@ namespace WebApplication1.Controllers
         public IActionResult Error()
         {
             var exceptionDetails = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            //ViewBag.ExceptionPath = exceptionDetails.Path;
-            ViewBag.ExceptionMessage = exceptionDetails.Error.Message;
-            ViewBag.Stacktrace = exceptionDetails.Error.StackTrace;
-
             _logger.LogError($"The path {exceptionDetails.Path} threw an exception" + exceptionDetails.Error);
             return View("Error");
         }
